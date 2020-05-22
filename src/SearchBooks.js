@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 //import Book from './Book'
 import * as BooksAPI from './BooksAPI'
 import SearchBooksList from './SearchBooksList'
+import { debounce } from 'throttle-debounce'
 
 class SearchBooks extends React.Component {
 
@@ -13,7 +14,7 @@ class SearchBooks extends React.Component {
 
   // Working for SearchBooks 
   // adding a new method to handle the search input
-  handleSearch = event => {
+  handleSearch = debounce(500, true, event => {
     if(event.target.value === '') {
       this.setState ({
         searchedBooks : []
@@ -22,7 +23,7 @@ class SearchBooks extends React.Component {
       this.setState ({
         query : event.target.value.trim()
       })
-    
+      
       // 2. calling BooksAPI
       BooksAPI.search(event.target.value)
         .then(searchResults => {
@@ -33,7 +34,7 @@ class SearchBooks extends React.Component {
           }
         })
     } 
-  }
+  })
   
   render () {
 
@@ -70,8 +71,7 @@ class SearchBooks extends React.Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-                { 
-                  this.state.searchedBooks.map(book => {
+                { this.state.searchedBooks.map(book => {
                     books.map(theBook => {
                       if(book.title === theBook.title) {
                         book.shelf = theBook.shelf
