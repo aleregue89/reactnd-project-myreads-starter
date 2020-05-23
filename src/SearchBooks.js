@@ -14,25 +14,31 @@ class SearchBooks extends React.Component {
 
   // Working for SearchBooks 
   // adding a new method to handle the search input
+  // implementing throttle - debounce
   handleSearch = debounce(500, true, event => {
-    if(event.target.value === '') {
-      this.setState ({
-        searchedBooks : []
-      })
-    } else {
-      this.setState ({
-        query : event.target.value.trim()
-      })
-      
-      // 2. calling BooksAPI
-      BooksAPI.search(event.target.value)
-        .then(searchResults => {
-          if(searchResults.length !== 0) {
-            this.setState({searchedBooks : searchResults})
+    const query = event.target.value;
+    console.log(query) // debugging 
+    this.setState ({
+      value: query// updating state component
+    })
+
+    if(query.length > 0) {
+      BooksAPI.search(query) // calling BooksAPI
+        .then(books => {
+          if(books.error) {
+            this.setState ({
+              searchedBooks: []
+            })
           } else {
-            this.setState({searchedBooks : []})
+            this.setState ({
+              searchedBooks: books
+            })
           }
         })
+    } else {
+      this.setState ({
+        searchedBooks: []
+      })
     } 
   })
   
