@@ -48,7 +48,6 @@ class SearchBooks extends React.Component {
     const {books} = this.props
     const {moveBook} = this.props
     
-
     return (
       <div className="app">
           <div className="search-books">
@@ -103,9 +102,7 @@ class SearchBooks extends React.Component {
           </div>
       </div>                    
 
-    )
-
-      
+    )  
   }
 }
 

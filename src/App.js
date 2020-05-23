@@ -1,12 +1,10 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-
 import ListBooksContent from './ListBooksContent'
 import SearchBooks from './SearchBooks'
 import {Route} from 'react-router-dom'
-import {Link} from 'react-router-dom'
-
+import OpenSearchButton from './OpenSearchButton'
 
 class BooksApp extends React.Component {
 
@@ -19,11 +17,9 @@ class BooksApp extends React.Component {
      */
 
     //showSearchPage: false,
-    // adding books as a new state
     books: [],
     isLoading: true,
     // new state property to store the search results from the user
-    //searchedBooks: []
   }
 
   // 1 - using fetch & ComponentDidMount life cycle event in order to get the array of books from the API
@@ -41,23 +37,21 @@ class BooksApp extends React.Component {
 
   //2- adding a new method (arrow function) to change the shelf property from a book to another shelf
   moveBook = (book, shelf) => {
-    // mapping books array and saving the new array resulted from it in a brand new variable
-    // calling BooksAPI update method
-    BooksAPI.update(book, shelf)
+    BooksAPI.update(book, shelf) // calling BooksAPI update method
       .then(books => {
         console.log(books)
         console.log(book)
         console.log(shelf)
       })
 
-    const movingBook =this.state.books.map(i => {
+    const movingBook =this.state.books.map(i => { // mapping books array 
       if(i.id === book.id) {
         i.shelf = shelf;
       }
       return i;
     });
-    // updating my state of the app
-    this.setState({
+    
+    this.setState({ // updating my state of the app
       books: movingBook
     })
 
@@ -68,32 +62,6 @@ class BooksApp extends React.Component {
     {key : 'wantToRead', name : 'Want to Read'},
     {key : 'read', name : 'read'}
   ]
-
-  // 2 - Working for SearchBooks 
-  // adding a new method to handle the search input on SearchPage
-  search = query => {
-    if(query.length !== 0) {
-
-      // 3. calling BooksAPI
-      BooksAPI.search(query)
-        .then(searchResults => {
-          if(searchResults.error) {
-            this.setState({searchedBooks : []})
-          } else {
-            this.setState({searchedBooks : searchResults})
-          }
-        })
-    } else{
-      this.setState({searchedBooks : []})
-    }
-  }
-
-  // adding a method to reset my search 
-  resetSearch = () => {
-    this.setState ({
-      searchedBooks : []
-    })
-  }
 
   render() {
     return (
@@ -115,7 +83,6 @@ class BooksApp extends React.Component {
             //search= {this.search}
             moveBook= {this.moveBook}
             books= {this.state.books}
-            //resetSearch= {this.resetSearch}
           />
             
         )} />
@@ -124,15 +91,5 @@ class BooksApp extends React.Component {
     )
   }
 }
-
-const OpenSearchButton = () => {
-  return (
-    <div className="open-search">
-      <Link className= 'search-books' to= '/SearchBooks'>
-        <button>Add a Book</button>
-      </Link>
-    </div>
-  );
-};
 
 export default BooksApp
