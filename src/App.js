@@ -43,14 +43,24 @@ class BooksApp extends React.Component {
         console.log(book)
         console.log(shelf)
       })
-
+    
+    /* commented this because I updating my method as per Menthor Suggestion 
     const movingBook =this.state.books.map(i => { // mapping books array 
       if(i.id === book.id) {
         i.shelf = shelf;
       }
       return i;
     });
-    
+    */
+
+    let movingBook = [] // storing results 
+    movingBook = this.state.books.filter(i => i.id !== book.id)
+
+    if(shelf !== 'none') {
+      book.shelf = shelf
+      movingBook = movingBook.concat(book)
+    }
+
     this.setState({ // updating my state of the app
       books: movingBook
     })

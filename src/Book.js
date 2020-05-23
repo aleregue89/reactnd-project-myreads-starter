@@ -1,5 +1,6 @@
 import React from 'react'
 import BookShelfChanger from './BookShelfChanger'
+import defaultCover from './icons/defaultCover.jpg'
 
 class Book extends React.Component {
 
@@ -11,8 +12,8 @@ class Book extends React.Component {
         const {moveBook} = this.props;
 
         // creating a variable to store my book property for images and author to later pass it to backgroundImage
-        const image = book.imageLinks && book.imageLinks.thumbnail;
-        //const author = book.authors ? book.authors : "Unknown";
+        const image = book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : defaultCover
+        const author = book.authors ? book.authors.join(', ') : 'Unknown'
 
         return (
                 <div className="book">
@@ -24,7 +25,7 @@ class Book extends React.Component {
                             />
                         </div>
                     <div className="book-title">{book.title}</div>
-                    <div className="book-authors">{book.authors && book.authors.join(', ')}</div>
+                    <div className="book-authors">{author}</div>
                 </div>
             
         )

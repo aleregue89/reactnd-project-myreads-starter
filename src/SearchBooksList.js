@@ -1,9 +1,10 @@
 import React from 'react'
+import defaultCover from './icons/defaultCover.jpg'
 
 const SearchBooksList = (props) => {
 
     //const {book} = this.props
-    const image = props.book.imageLinks && props.book.imageLinks.thumbnail;
+    const image = props.book.imageLinks && props.book.imageLinks.thumbnail ? props.book.imageLinks.thumbnail : defaultCover
 
     return (
         <li key={props.id}>

@@ -9,7 +9,8 @@ class SearchBooks extends React.Component {
 
   state = {
     query : '',
-    searchedBooks : []
+    searchedBooks : [],
+    error : false
   }
 
   // Working for SearchBooks 
@@ -27,8 +28,10 @@ class SearchBooks extends React.Component {
         .then(books => {
           if(books.error) {
             this.setState ({
-              searchedBooks: []
+              searchedBooks: [],
+              error: true
             })
+            alert("Book not found")
           } else {
             this.setState ({
               searchedBooks: books
